@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}My Shop {% endblock %}
+
+{% block content %}
+    <h1 class="text-2xl">My Shop</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mt-4 px-8 py-4 bg-teal-200 text-teal-800">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <a href="{% url 'add_product' %}" class="mt-8 inline-block py-4 px-8 bg-teal-600 text-white">Add Product</a>
+
+    <h2 class="mt-8 text-xl">My Products</h2>
+
+    {% if products %}
+        <div class="flex flex-wrap space-x">
+        {% for product in products %}
+            <div class="product w-1/3 p-2">
+                <div class="p-4 bg-gray-100">
+                    <a href="{% url 'edit_product' product.id %}">                    
+                        {% if product.image %}
+                            <div class="image mb-2">
+                                <img src ="{{ product.image.url }}" alt="Image of {{ product.title }}">
+                            </div>
+                        {% endif %}
+                        <h2 class="text-xl">{{ product.title }}</h2>
+                        <p class="text-sm text-blue-600">${{ product.get_display_price }}</p>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="py-4 px-8 bg-gray-200">You don't have any product yet... </p>
+    {% endif %}
+
+{% endblock %}
