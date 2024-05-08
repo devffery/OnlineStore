@@ -14,4 +14,6 @@
         <p class="mt-4">{{ product.description }}</p>
     {% endif %}
 
+    <a href="{% url 'add_to_cart' product.id %}" class="inline-block px-8 py-4 bg-teal-500 text-white hover:bg-teal-700">Add to cart</a>
+
 {% endblock %}

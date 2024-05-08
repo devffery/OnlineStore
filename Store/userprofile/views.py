@@ -3,11 +3,11 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from .models import Userprofile
 from shop.forms import ProductForm
-from shop.models import Product, Category
+from shop.models import Product, Category, Order, OrderItem
 
 def vendor_detail(request, pk):
     user = User.objects.get(pk=pk)
@@ -21,9 +21,11 @@ def vendor_detail(request, pk):
 @login_required
 def my_shop(request):
     products = request.user.products.exclude(status=Product.DELETED)
+    order_items = OrderItem.objects.filter(product__user=request.user)
 
     return render(request, 'userprofile/my_shop.html', {
-        'products':products
+        'products':products,
+        'order_items':order_items
     })
 
 @login_required
@@ -90,6 +92,14 @@ def delete_product(request,pk):
 @login_required
 def myaccount(request):
     return render(request,'userprofile/myaccount.html')
+
+@login_required
+def my_shop_order_detail(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+
+    return render(request,'userprofile/my_shop_order_detail.html', {
+        'order': order,
+    })
 
 def signup(request):
     if request.method == 'POST':

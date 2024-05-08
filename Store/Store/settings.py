@@ -27,8 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CART_SESSION_ID = 'cart'
+SESSION_COOKIE_AGE = 86400
+
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'myaccount'
-LOGOUT_REDIRECT_URL = 'frontpage'
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 
@@ -67,6 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shop.context_processors.cart',
             ],
         },
     },
